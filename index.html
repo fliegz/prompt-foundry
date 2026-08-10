@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f5f1e8" />
+    <title>Prompt Foundry</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header class="masthead">
+        <div>
+          <p class="eyebrow">Prompt Foundry / v0.1</p>
+          <h1>Give the work<br /><em>a better brief.</em></h1>
+        </div>
+        <p class="intro">A small, practical prompt builder based on the Codex cliff notes: context in, better work out.</p>
+      </header>
+
+      <section class="toolbar" aria-label="Prompt actions">
+        <div class="modes" role="group" aria-label="Prompt type">
+          <button class="mode active" data-template="build">Build</button>
+          <button class="mode" data-template="understand">Understand</button>
+          <button class="mode" data-template="debug">Debug</button>
+          <button class="mode" data-template="review">Review</button>
+          <button class="mode" data-template="custom">Custom</button>
+        </div>
+        <button id="clear" class="button quiet">Clear</button>
+      </section>
+
+      <div class="workspace">
+        <form id="prompt-form" class="card form-card">
+          <div class="card-heading">
+            <div>
+              <p class="eyebrow">01 / Shape the task</p>
+              <h2>What should get done?</h2>
+            </div>
+            <span id="score" class="score">0 / 5</span>
+          </div>
+
+          <label>
+            Goal <span>the outcome, not the activity</span>
+            <textarea data-field="goal" rows="3" placeholder="e.g. Add a simple booking flow to the existing website"></textarea>
+          </label>
+          <label>
+            Context <span>files, audience, tools, facts</span>
+            <textarea data-field="context" rows="4" placeholder="e.g. This is a Next.js site for a small law firm. Reuse the existing form and styling."></textarea>
+          </label>
+          <label>
+            Constraints <span>must include, avoid, or preserve</span>
+            <textarea data-field="constraints" rows="3" placeholder="e.g. Keep the current CTA, do not add dependencies, preserve mobile behavior."></textarea>
+          </label>
+          <label>
+            Done when <span>the proof of a good result</span>
+            <textarea data-field="standard" rows="3" placeholder="e.g. A visitor can submit a booking, validation works, and the flow is tested on mobile."></textarea>
+          </label>
+          <label>
+            Stop if <span>the guardrail for uncertainty or risk</span>
+            <textarea data-field="stop" rows="3" placeholder="e.g. Stop before publishing or changing production data; show me the proposed change first."></textarea>
+          </label>
+
+          <div class="actions">
+            <button type="button" id="fill-example" class="button secondary">Use an example</button>
+            <button type="submit" class="button primary">Build my prompt <span>↗</span></button>
+          </div>
+        </form>
+
+        <section class="card preview-card" aria-live="polite">
+          <div class="card-heading">
+            <div>
+              <p class="eyebrow">02 / Ready to use</p>
+              <h2>Your prompt</h2>
+            </div>
+            <button id="copy" class="button copy">Copy</button>
+          </div>
+          <pre id="preview">Start filling in the brief on the left.</pre>
+          <div class="tip"><strong>Quick check</strong><span id="tip">A strong prompt says what success looks like and how to verify it.</span></div>
+        </section>
+      </div>
+
+      <footer><span>Local-first. Nothing leaves your browser.</span><span>Inspired by the Codex work loop: inspect → plan → build → verify.</span></footer>
+    </main>
+    <script src="app.js"></script>
+  </body>
+</html>
