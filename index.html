@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#f5f1e8" />
     <title>Prompt Foundry</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -14,7 +15,7 @@
           <p class="eyebrow">Prompt Foundry / v0.1</p>
           <h1>Give the work<br /><em>a better brief.</em></h1>
         </div>
-        <p class="intro">A small, practical prompt builder based on the Codex cliff notes: context in, better work out.</p>
+        <p class="intro">A small, practical prompt builder for clearer work.</p>
       </header>
 
       <section class="toolbar" aria-label="Prompt actions">
@@ -45,6 +46,10 @@
           <label>
             Context <span>files, audience, tools, facts</span>
             <textarea data-field="context" rows="4" placeholder="e.g. This is a Next.js site for a small law firm. Reuse the existing form and styling."></textarea>
+          </label>
+          <label>
+            File paths <span>the exact files or folders to inspect</span>
+            <textarea data-field="paths" rows="3" placeholder="e.g. app/page.tsx, components/booking-form.tsx, styles/globals.css"></textarea>
           </label>
           <label>
             Constraints <span>must include, avoid, or preserve</span>
