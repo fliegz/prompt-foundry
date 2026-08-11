@@ -24,9 +24,9 @@ function render() {
   const filled = fields.filter((field) => field.value.trim()).length;
   score.textContent = `${filled} / ${fields.length}`;
   preview.textContent = buildPrompt();
-  tip.textContent = filled < 3 ? 'Add the context and proof of success before you build.' : filled === 5 ? 'Ready: this tells the agent what to do, how to do it, and when to stop.' : 'A little more context or a clearer done-when will make this stronger.';
+  tip.textContent = filled < 3 ? 'Add the context and proof of success before you build.' : filled === fields.length ? 'Ready: this tells the agent what to do, how to do it, and when to stop.' : 'A little more context or a clearer done-when will make this stronger.';
 }
-function loadTemplate(name) { fields.forEach((field) => { field.value = templates[name][field.dataset.field]; }); render(); }
+function loadTemplate(name) { fields.forEach((field) => { field.value = templates[name][field.dataset.field] ?? ''; }); render(); }
 
 document.querySelectorAll('.mode').forEach((button) => button.addEventListener('click', () => {
   document.querySelector('.mode.active').classList.remove('active');
@@ -37,8 +37,24 @@ fields.forEach((field) => field.addEventListener('input', render));
 document.querySelector('#fill-example').addEventListener('click', () => loadTemplate('build'));
 document.querySelector('#clear').addEventListener('click', () => loadTemplate('custom'));
 form.addEventListener('submit', (event) => { event.preventDefault(); render(); preview.focus(); });
+async function copyText(text) {
+  if (navigator.clipboard?.writeText) {
+    await navigator.clipboard.writeText(text);
+    return;
+  }
+  const input = document.createElement('textarea');
+  input.value = text;
+  input.setAttribute('readonly', '');
+  input.style.position = 'fixed';
+  input.style.opacity = '0';
+  document.body.append(input);
+  input.select();
+  document.execCommand('copy');
+  input.remove();
+}
+
 document.querySelector('#copy').addEventListener('click', async () => {
-  await navigator.clipboard.writeText(buildPrompt());
+  await copyText(buildPrompt());
   const button = document.querySelector('#copy'); button.textContent = 'Copied';
   setTimeout(() => { button.textContent = 'Copy'; }, 1200);
 });
