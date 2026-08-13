@@ -18,7 +18,7 @@ function buildPrompt() {
   const sections = [['Goal', value.goal], ['Context', value.context], ['File paths', value.paths], ['Constraints', value.constraints], ['Done when', value.standard], ['Stop if', value.stop]];
   const filled = sections.filter(([, text]) => text);
   if (!filled.length) return 'Start filling in the brief on the left.';
-  return `${filled.map(([name, text]) => `${name}:\n${text}`).join('\n\n')}\n\nAction:\nInspect the existing work first. Then make a focused plan, implement the change, verify it, and finish with what changed, what was tested, what remains uncertain, and the next best step.`;
+  return `# Task brief\n\n${filled.map(([name, text]) => `## ${name}\n${text}`).join('\n\n')}\n\n## How to work\n1. Inspect the relevant files and existing patterns first.\n2. Make a focused plan before changing anything.\n3. Implement the smallest reliable change.\n4. Verify the result and test nearby behavior.\n5. Finish with what changed, what was tested, and what remains uncertain.\n\nUse the file paths above as your starting point. Ask before taking any action covered by “Stop if.”`;
 }
 function render() {
   const filled = fields.filter((field) => field.value.trim()).length;
@@ -36,7 +36,14 @@ document.querySelectorAll('.mode').forEach((button) => button.addEventListener('
 fields.forEach((field) => field.addEventListener('input', render));
 document.querySelector('#fill-example').addEventListener('click', () => loadTemplate('build'));
 document.querySelector('#clear').addEventListener('click', () => loadTemplate('custom'));
-form.addEventListener('submit', (event) => { event.preventDefault(); render(); preview.focus(); });
+form.addEventListener('submit', (event) => {
+  event.preventDefault();
+  render();
+  preview.focus();
+  const button = form.querySelector('button[type="submit"]');
+  button.firstChild.textContent = 'Prompt built ✓ ';
+  setTimeout(() => { button.firstChild.textContent = 'Build my prompt '; }, 1600);
+});
 async function copyText(text) {
   if (navigator.clipboard?.writeText) {
     await navigator.clipboard.writeText(text);
